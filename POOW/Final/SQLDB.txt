@@ -1,0 +1,45 @@
+create table equipe(id_equipe serial,
+					 equipe varchar(50) not null,
+					 endereco varchar(100) not null,
+					 primary key(id_equipe)
+					);
+				
+create table produto(id_produto serial,
+					 produto varchar(50) not null,
+					 preco numeric(10,2),
+					 primary key(id_produto)
+					);	
+				
+
+create table encomenda(id_encomenda serial,
+				   id_equipe serial,
+				   id_produto serial,
+				   quantidade int,
+				   primary key(id_encomenda),
+				   foreign key(id_equipe) references equipe(id_equipe),
+				   foreign key(id_produto) references produto(id_produto)
+				   );			
+
+
+create table permissao (id_permissao serial primary key, nome_permissao varchar(20) not null);
+
+create table usuario (id_usuario serial primary key, nome varchar(25) not null, 
+					  email varchar(25) not null unique, senha varchar(50) not null, 
+					  ativo boolean, id_permissao int, 
+					  foreign key (id_permissao) references permissao(id_permissao));
+
+insert into equipe (id_equipe, equipe, endereco) values (1, 'Mercedes AMG Petronas', 'Brackley, England');
+insert into equipe (id_equipe, equipe, endereco) values (2, 'Oracle Redbull Racing', 'Salzburg, Austria');
+
+insert into produto (id_produto, produto, preco) values (001, 'Tyres', 15000);
+insert into produto (id_produto, produto, preco) values (002, 'Wings', 50000);
+
+
+insert into encomenda (id_encomenda, id_equipe, id_produto, quantidade) values (1, 1, 1, 20);
+insert into encomenda (id_encomenda, id_equipe, id_produto, quantidade) values (2, 2, 2, 2);
+
+insert into permissao (nome_permissao) values ('ADMIN');
+insert into permissao (nome_permissao) values ('USER');
+
+insert into usuario(nome, email, senha, ativo, id_permissao) values
+    ('fia', 'fia@fia', '123', true, 1);
